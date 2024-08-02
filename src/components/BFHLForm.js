@@ -21,7 +21,7 @@ const BFHLForm = () => {
           try {
                const parsedJson = JSON.parse(jsonInput);
 
-               const res = await fetch('https://your-backend-url.com/bfhl', {
+               const res = await fetch('https://bajajfinserv-backend.vercel.app/bfhl', {
                     method: 'POST',
                     headers: {
                          'Content-Type': 'application/json',
