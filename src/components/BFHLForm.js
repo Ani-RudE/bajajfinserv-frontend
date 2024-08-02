@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Select from 'react-select';
+import axios from 'axios';
 
 const BFHLForm = () => {
      const [jsonInput, setJsonInput] = useState('');
@@ -21,18 +22,25 @@ const BFHLForm = () => {
           try {
                const parsedJson = JSON.parse(jsonInput);
 
-               const res = await fetch('bajajfinserv-backend.vercel.app/bfhl', {
-                    method: 'POST',
+               const { data } = await axios.post('https://bajajfinserv-backend.vercel.app/bfhl', parsedJson, {
                     headers: {
                          'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(parsedJson),
                });
 
-               const data = await res.json();
                setResponse(data);
           } catch (err) {
-               setError('Invalid JSON input or API error');
+               if (err.response) {
+                    // The request was made and the server responded with a status code
+                    // that falls out of the range of 2xx
+                    setError(`API error: ${err.response.data.message || 'Unknown error'}`);
+               } else if (err.request) {
+                    // The request was made but no response was received
+                    setError('No response received from the server');
+               } else {
+                    // Something happened in setting up the request that triggered an Error
+                    setError('Invalid JSON input or request setup error');
+               }
           }
      };
 
