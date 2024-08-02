@@ -22,13 +22,7 @@ const BFHLForm = () => {
           try {
                const parsedJson = JSON.parse(jsonInput);
 
-               const { data } = await axios.post('https://bajajfinserv-backend.vercel.app/bfhl', parsedJson, {
-                    headers: {
-                         'Content-Type': 'application/json',
-                         'Access-Control-Allow-Origin': 'https://bajajfinserv-frontend.vercel.app',
-                    },
-                    withCredentials: true,
-               });
+               const { data } = await axios.post('https://bajajfinserv-backend.vercel.app/bfhl', parsedJson);
 
                setResponse(data);
           } catch (err) {
