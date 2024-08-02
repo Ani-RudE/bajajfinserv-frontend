@@ -25,22 +25,21 @@ const BFHLForm = () => {
                const { data } = await axios.post('https://bajajfinserv-backend.vercel.app/bfhl', parsedJson, {
                     headers: {
                          'Content-Type': 'application/json',
+                         'Access-Control-Allow-Origin': 'https://bajajfinserv-frontend.vercel.app',
                     },
+                    withCredentials: true,
                });
 
                setResponse(data);
           } catch (err) {
                if (err.response) {
-                    // The request was made and the server responded with a status code
-                    // that falls out of the range of 2xx
                     setError(`API error: ${err.response.data.message || 'Unknown error'}`);
                } else if (err.request) {
-                    // The request was made but no response was received
                     setError('No response received from the server');
                } else {
-                    // Something happened in setting up the request that triggered an Error
                     setError('Invalid JSON input or request setup error');
                }
+               console.error('Full error:', err);
           }
      };
 
